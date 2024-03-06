@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  backend:
+    build:
+      args:
+          user: sammy
+          uid: 1000
+      context: ./flink-backend
+      dockerfile: ../Dockerfiles/php/php.docker
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./flink-backend:/var/www
+    env_file:
+      - ./flink-backend/.env
+    networks:
+      - flink
+
+  db:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=admin
+    volumes:
+      - data:/var/lib/mysql
+    networks:
+      - flink
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - ./flink-backend:/var/www
+      - ./Dockerfiles/nginx:/etc/nginx/conf.d
+    networks:
+      - flink
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8081:80"
+    networks:
+      - flink
+
+volumes:
+  data:
+
+networks:
+  flink:
+    driver: bridge
