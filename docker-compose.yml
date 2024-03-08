@@ -23,6 +23,8 @@ services:
       - MARIADB_ROOT_PASSWORD=admin
     volumes:
       - data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d  # Ajout du volume pour le script d'initialisation
+
     networks:
       - flink
 
