@@ -23,6 +23,7 @@ cd flink/flink-backend
 ```sh
 cp .env.example .env
 ```
+
 4. Dans le fichier '.env' modifiez la partie db pour correspondre a la configuration
 ```sh
 DB_CONNECTION=mysql
@@ -34,7 +35,7 @@ DB_PASSWORD=admin #et celle là
 ```
 > noubliez pas d'enregister 'ctrl + s'
 
-5. Revenez en arrière et installez les dépendances avec Composer et generez la clé de l'application
+5. Revenez en arrière et installez les dépendances avec Composer, generez la clé de l'application et effectuez les migration
 ```sh
 cd ..
 docker-compose up -d db 
@@ -46,7 +47,7 @@ docker-compose run --rm backend bash -c "composer install && php artisan key:gen
 docker-compose up -d
 ```
 
-1. Testez la configuration
+7. Testez la configuration
 
 Pour tester la configuration vous pouvez vous rendre sur l'url http://localhost:8080/
 Et sur http://localhost:8080/api/test pour tester l'api
