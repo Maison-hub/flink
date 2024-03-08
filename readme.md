@@ -5,7 +5,7 @@ Flink est une API qui permet de créer un clone de Linktree. Il est construit av
 ## Prérequis
 
 - Docker
-- Composer
+- docker-compose
 
 ## Installation
 
