@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\LinkController;
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/testAuth', [TestController::class, 'testAuth']);
+    //update profil
+    Route::post('/updateprofil', [AuthController::class, 'updateProfil']);
 
     Route::post('/addlink', [LinkController::class, 'store']);
     Route::get('/getlinks', [LinkController::class, 'getlinks']);
