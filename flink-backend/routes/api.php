@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\LinkController;
+use App\Http\Controllers\Api\EmailVerificationController;
+
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +33,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/deletelink/{id}', [LinkController::class, 'delete']);
 
 });
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+    ->middleware(['api.signed'])
+    ->name('verification.verify');
 
 Route::get('/test', [TestController::class, 'test']);
 
