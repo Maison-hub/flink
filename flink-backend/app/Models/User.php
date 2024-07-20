@@ -47,6 +47,23 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    /**
+     * Update the user's profile.
+     *
+     * @param array $data
+     * @return bool
+     */
+    public function updateProfile(array $data)
+    {
+        // Update the user's profile fields
+        $this->name = $data['name'];
+        $this->biography = $data['biography'];
+        $this->profile_photo = $data['profile_photo'];
+
+        // Save the changes to the database
+        return $this->save();
+    }
+
     // Définir la relation avec les liens de l'utilisateur
     public function links()
     {

@@ -1,0 +1,20 @@
+# Utilisez une image Node.js pour construire votre application front-end
+FROM node:lts-alpine as build-stage
+# Définissez le répertoire de travail
+WORKDIR /app
+# Copiez package.json et package-lock.json pour installer les dépendances
+COPY /package*.json ./
+# Installez les dépendances
+RUN npm install
+# Copiez le reste des fichiers de l'application
+COPY . . 
+# Construisez l'application pour la production
+RUN npm run build
+# Utilisez une image Nginx pour servir votre application front-end
+FROM nginx:stable-alpine as production-stage
+# Copiez le dossier dist à partir de l'étape de construction
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+# Exposez le port 80
+EXPOSE 80
+# Démarrez Nginx
+CMD ["nginx", "-g", "daemon off;"]

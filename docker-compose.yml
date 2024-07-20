@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
   backend:
     build:
@@ -14,6 +12,19 @@ services:
       - ./flink-backend:/var/www
     env_file:
       - ./flink-backend/.env
+    networks:
+      - flink
+
+  frontend:
+    build:
+      context: ./flink-frontend
+      dockerfile: ../Dockerfiles/vue/vue.dev.docker
+    command: npm run dev
+    volumes:
+      - ./flink-frontend:/app
+    restart: unless-stopped
+    ports:
+      - 3000:3000
     networks:
       - flink
 
