@@ -15,13 +15,13 @@ services:
     networks:
       - flink
 
-  frontend:
+  front:
     build:
-      context: ./flink-frontend
+      context: ./front
       dockerfile: ../Dockerfiles/vue/vue.dev.docker
     command: npm run dev
     volumes:
-      - ./flink-frontend:/app
+      - ./front:/app
     restart: unless-stopped
     ports:
       - 3000:3000

@@ -17,7 +17,7 @@ ENV PATH ./node_modules/.bin/:$PATH
 
 # WORKDIR /app
 
-# COPY package*.json ./
+COPY ./package*.json ./
 # COPY vite.config.ts ./
 
 # RUN npm install
