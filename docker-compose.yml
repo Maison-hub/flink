@@ -1,27 +1,27 @@
 services:
-  backend:
+  back:
     build:
       args:
           user: sammy
           uid: 1000
-      context: ./flink-backend
+      context: ./back
       dockerfile: ../Dockerfiles/php/php.docker
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
-      - ./flink-backend:/var/www
+      - ./back:/var/www
     env_file:
-      - ./flink-backend/.env
+      - ./back/.env
     networks:
       - flink
 
-  frontend:
+  front:
     build:
-      context: ./flink-frontend
+      context: ./front
       dockerfile: ../Dockerfiles/vue/vue.dev.docker
     command: npm run dev
     volumes:
-      - ./flink-frontend:/app
+      - ./front:/app
     restart: unless-stopped
     ports:
       - 3000:3000
@@ -45,7 +45,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./flink-backend:/var/www
+      - ./back:/var/www
       - ./Dockerfiles/nginx:/etc/nginx/conf.d
     networks:
       - flink
