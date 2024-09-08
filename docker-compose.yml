@@ -10,8 +10,8 @@ services:
     working_dir: /var/www/
     volumes:
       - ./back:/var/www
-    env_file:
-      - ./back/.env
+    # env_file:
+    #   - ./back/.env
     networks:
       - flink
 

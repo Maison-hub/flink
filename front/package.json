@@ -10,11 +10,17 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.4",
+    "axios": "^1.7.7",
     "nuxt": "^3.13.0",
+    "pinia": "^2.2.2",
     "vue": "latest",
     "vue-router": "latest"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }
