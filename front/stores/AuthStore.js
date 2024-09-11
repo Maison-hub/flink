@@ -1,11 +1,12 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore("counter", () => {
+export const useAuthStore = defineStore("auth", () => {
   const apiBase = "http://localhost:8080";
 
   const user = ref(null);
   const isLogged = ref(false);
+  const links = ref(null);
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   //check if user is logged in
@@ -54,5 +55,25 @@ export const useAuthStore = defineStore("counter", () => {
     });
   }
 
-  return { user, isLogged, fetchUser, authenticateUser, logout };
+  async function userLinks() {
+    axios
+      .get(`${apiBase}/api/linkof/${user.value.id}`)
+      .then((response) => {
+        links.value = response.data.links;
+        console.log(links.value);
+      })
+      .catch(() => {
+        links.value = null;
+      });
+  }
+
+  return {
+    user,
+    isLogged,
+    links,
+    fetchUser,
+    authenticateUser,
+    logout,
+    userLinks,
+  };
 });
