@@ -1,4 +1,9 @@
 <script setup>
+// log runtime config backend url variable
+const runtimeConfig = useRuntimeConfig()
+console.log(runtimeConfig.public.apiBase)
+
+
 </script>
 
 <template>

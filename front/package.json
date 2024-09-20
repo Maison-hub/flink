@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "nuxt-auth-sanctum": "^0.4.11",
     "postcss": "^8.4.45",
     "tailwindcss": "^3.4.10"
   }

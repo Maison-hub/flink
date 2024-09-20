@@ -1,77 +1,54 @@
+<script setup>
+const { login, logout, isAuthenticated } = useSanctumAuth()
+
+//implement handle login function
+const form = ref({
+    email: null,
+    password: null,
+    remember: false,
+})
+
+const isLogged = isAuthenticated;
+
+const handleLogin = async () => {
+    await login(form.value)
+}
+
+const handleLogout = async () => {
+    await logout()
+}
+
+</script>
+
 <template>
-    <div>
-        <h1>Login</h1>
-        <div v-if="authStore.user">
-            <p>Vous étes déja connecter en tant que {{ authStore.user.name }}</p>
-            <button @click="authStore.logout()">logout</button>
-        </div>
-        <form @submit.prevent="login"
-            v-if="!authStore.user">
+    <div v-if="isLogged">
+        you are logged in
+        <button @click="handleLogout">Logout</button>
+    </div>
+    <div v-else
+        class="w-full flex justify-center flex-col items-center">
+        <form @submit.prevent="handleLogin"
+            class="max-w-screen-sm flex flex-col gap-3 items-start justify-start w-full">
+            <h1 class="text-center w-full">Login</h1>
+
+            <FormInput v-model="form.email"
+                label="Email"
+                id="email"
+                type="email" />
+            <FormInput v-model="form.password"
+                label="Password"
+                id="password"
+                type="password" />
             <div>
-                <label for="email">Email:</label>
-                <input type="email"
-                    id="email"
-                    v-model="form.email"
-                    required>
+                <input type="checkbox"
+                    id="remember"
+                    v-model="form.remember">
+                <label for="remember">Remember me</label>
             </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password"
-                    id="password"
-                    v-model="form.password"
-                    required>
-            </div>
+
+            <!-- TOFO implement custom button component -->
             <button type="submit">Login</button>
         </form>
         <NuxtLink to="/testAuth">test auth</NuxtLink>
     </div>
 </template>
-
-<script setup>
-import axios from 'axios';
-import { useAuthStore } from '~/stores/AuthStore';
-
-const form = ref({
-    email: null,
-    password: null,
-})
-
-const authStore = useAuthStore()
-
-const login = async () => {
-    await authStore.authenticateUser(form.value.email, form.value.password)
-};
-
-onMounted(() => {
-    authStore.fetchUser()
-})
-
-
-
-// // const email = ref('');
-// // const password = ref('');
-
-// axios.defaults.withCredentials = true;
-// axios.defaults.withXSRFToken = true;
-
-
-// let user = ref(null);
-
-// const login = async () => {
-//     // get csrf cookies
-//     await axios.get('http://localhost:8080/sanctum/csrf-cookie');
-//     try {
-//         const response = await axios.post('http://localhost:8080/login', {
-//             email: email.value,
-//             password: password.value,
-//         });
-//         const userdata = await axios.get('http://localhost:8080/api/user');
-//         user.value = userdata.data;
-//         // Handle successful login here
-//         console.log(response.data);
-//     } catch (error) {
-//         // Handle login error here
-//         console.error(error);
-//     }
-// };
-</script>

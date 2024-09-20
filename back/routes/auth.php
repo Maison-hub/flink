@@ -35,3 +35,13 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
+//manualy added
+
+//update user data
+Route::patch('/user', [RegisteredUserController::class, 'update'])
+                ->middleware('auth')
+                ->name('user.update');
+
+Route::patch('/user/picture', [RegisteredUserController::class, 'updateProfilePicture'])
+                ->middleware('auth')
+                ->name('user.update.picture');

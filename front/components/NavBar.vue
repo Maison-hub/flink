@@ -1,15 +1,57 @@
+<script setup>
+const { user, isAuthenticated } = useSanctumAuth()
+
+const isDropdownOpen = ref(false);
+
+const toggleDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const viewProfile = () => {
+    // Logique pour afficher le profil de l'utilisateur
+};
+
+const logout = () => {
+    // Logique pour déconnecter l'utilisateur
+    console.log('Logout');
+};
+
+
+</script>
+
 <template>
     <nav class="flex flex-row items-center justify-center w-full py-6">
-        <ul class="flex flex-row items-center justify-center w-full gap-6">
+        <ul class="p-6 w-full">
             <li>
                 <NuxtLink to="/">Home</NuxtLink>
             </li>
-            <li>
+            <div class="w-full"></div>
+            <ul v-if="isAuthenticated">
+                <li>
+                    <NuxtLink to="/board">Your Dashboard</NuxtLink>
+                </li>
+                <li @click="toggleDropdown"
+                    class="cursor-pointer">
+                    <span>{{ user.name }}</span>
+                    <ul v-if="isDropdownOpen"
+                        class="absolute flex flex-col right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg gap-0">
+                        <li @click="viewProfile"
+                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">
+                            <NuxtLink to="/you">View Profile</NuxtLink>
+                        </li>
+                        <li @click="logout"
+                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">Logout</li>
+                    </ul>
+                </li>
+            </ul>
+            <ul v-else>
                 <NuxtLink to="/login">Login</NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/board">Your Dashboard</NuxtLink>
-            </li>
+            </ul>
         </ul>
     </nav>
 </template>
+<style>
+ul {
+    @apply flex flex-row items-center justify-center gap-6 text-nowrap;
+}
+</style>

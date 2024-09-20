@@ -13,11 +13,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/testAuth', [TestController::class, 'testAuth']);
 
-    Route::post('/addlink', [LinkController::class, 'store']);
-    Route::get('/getlinks', [LinkController::class, 'getlinks']);
-    Route::post('/updatelink/{id}', [LinkController::class, 'update']);
-    Route::delete('/deletelink/{id}', [LinkController::class, 'delete']);
+
+    //TODO maybe concatenate post and patch ito put method
+    Route::post('/user/link', [LinkController::class, 'store']);
+    Route::patch('/user/link/{id}', [LinkController::class, 'update']);
+
+    Route::get('/user/links', [LinkController::class, 'getlinks']);
+    Route::delete('/link/{id}', [LinkController::class, 'delete']);
 
 });
 
-Route::get('/linkof/{id}', [LinkController::class, 'getAllLink']);
+Route::get('/link/{id}', [LinkController::class, 'getAllLink']);

@@ -11,11 +11,20 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     public: {
-      backendUrl: 'http://localhost:8080'
+      apiBase: process.env.NUXT_BACKEND_URL,
     }
   },
-  modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt', 'nuxt-auth-sanctum'],
   pinia: {
     storesDirs: ['~/stores']
+  },
+  sanctum: {
+    // use the public backendUrl runtime config
+    baseUrl: process.env.NUXT_BACKEND_URL,
+    redirect: {
+      onLogin: '/board',
+      onLogout: '/login',
+      keepRequestedRoute: true,
+    },
   },
 })
