@@ -15,18 +15,3 @@ COPY . .
 EXPOSE 3000
 
 ENV PATH ./node_modules/.bin/:$PATH
-
-# FROM node:lts-alpine
-
-# WORKDIR /app
-
-# COPY package*.json ./
-# COPY vite.config.ts ./
-
-# RUN npm install
-
-# RUN npm install -g vite
-
-# EXPOSE 5173
-
-# CMD ["npm", "run", "dev"]
