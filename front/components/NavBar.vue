@@ -1,5 +1,5 @@
 <script setup>
-const { user, isAuthenticated } = useSanctumAuth()
+const { user, isAuthenticated, logout } = useSanctumAuth()
 
 const isDropdownOpen = ref(false);
 
@@ -11,9 +11,9 @@ const viewProfile = () => {
     // Logique pour afficher le profil de l'utilisateur
 };
 
-const logout = () => {
+const handleLogout = () => {
     // Logique pour déconnecter l'utilisateur
-    console.log('Logout');
+    logout();
 };
 
 
