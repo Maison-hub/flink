@@ -2,7 +2,7 @@
 import useUserLinks from '~/composables/useUserLinks';
 
 definePageMeta({
-    middleware: ['sanctum:auth'],
+    middleware: ['auth'],
 });
 
 const { links, getLinks } = useUserLinks()

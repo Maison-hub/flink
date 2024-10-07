@@ -1,5 +1,5 @@
 <script setup>
-const { user, isAuthenticated, logout } = useSanctumAuth()
+const { user, isAuthenticated, logout } = useAuth()
 
 const isDropdownOpen = ref(false);
 
@@ -26,6 +26,7 @@ const handleLogout = () => {
                 <NuxtLink to="/">Home</NuxtLink>
             </li>
             <div class="w-full"></div>
+            {{ isAuthenticated }}
             <ul v-if="isAuthenticated">
                 <li>
                     <NuxtLink to="/board">Your Dashboard</NuxtLink>

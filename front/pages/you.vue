@@ -1,6 +1,6 @@
 <script setup>
 definePageMeta({
-    middleware: ['sanctum:auth'],
+    middleware: ['auth'],
 });
 
 const { user } = useSanctumAuth()

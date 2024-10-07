@@ -1,5 +1,11 @@
 <script setup>
-const { login, logout, isAuthenticated } = useSanctumAuth()
+import { useAuthStore } from '~/stores/authStore';
+// const { login, logout, isAuthenticated } = useSanctumAuth()
+
+// const { login, logout, isAuthenticated } = useAuth()
+
+const auth = useAuthStore();
+
 
 //implement handle login function
 const form = ref({
@@ -8,20 +14,20 @@ const form = ref({
     remember: false,
 })
 
-const isLogged = isAuthenticated;
-
 const handleLogin = async () => {
-    await login(form.value)
+    // await login(form.value)
+    console.log('form', form.value)
+    await auth.attemptLogin(form.value)
 }
 
 const handleLogout = async () => {
-    await logout()
+    await auth.logout()
 }
 
 </script>
 
 <template>
-    <div v-if="isLogged">
+    <div v-if="auth.isLoggedIn">
         you are logged in
         <button @click="handleLogout">Logout</button>
     </div>
