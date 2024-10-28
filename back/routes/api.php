@@ -6,9 +6,11 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\Auth\LoginUserController;
 
 
+//--------------------Auth---------------------
 Route::post('/login', [LoginUserController::class, 'login'])
     ->middleware('guest')
     ->name('login');
+
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -19,14 +21,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Route::get('/testAuth', [TestController::class, 'testAuth']);
 
-
+    //--------------------Links---------------------
     //TODO maybe concatenate post and patch ito put method
-    Route::post('/user/link', [LinkController::class, 'store']);
-    Route::patch('/user/link/{id}', [LinkController::class, 'update']);
-
-    Route::get('/user/links', [LinkController::class, 'getlinks']);
+    Route::get('/links', [LinkController::class, 'getlinks']);
+    Route::post('/links', [LinkController::class, 'store']);
+    Route::patch('/links/{id}', [LinkController::class, 'update']);
     Route::delete('/links/{id}', [LinkController::class, 'delete']);
 
 });
 
-Route::get('/link/{id}', [LinkController::class, 'getAllLink']);
+//--------------------Views---------------------
+Route::get('/views/users/{userId}/links', [LinkController::class, 'getAllLink']);

@@ -14,17 +14,8 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_BACKEND_URL,
     }
   },
-  modules: ['@pinia/nuxt', 'nuxt-auth-sanctum'],
+  modules: ['@pinia/nuxt', 'nuxt-auth-utils'],
   pinia: {
     storesDirs: ['~/stores']
-  },
-  sanctum: {
-    // use the public backendUrl runtime config
-    baseUrl: process.env.NUXT_BACKEND_URL,
-    redirect: {
-      onLogin: '/board',
-      onLogout: '/login',
-      keepRequestedRoute: true,
-    },
   },
 })

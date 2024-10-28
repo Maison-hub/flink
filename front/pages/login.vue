@@ -1,10 +1,12 @@
 <script setup>
-import { useAuthStore } from '~/stores/authStore';
+const { loggedIn, user, session, fetch, clear } = useUserSession()
+
+// import { useAuthStore } from '~/stores/authStore';
 // const { login, logout, isAuthenticated } = useSanctumAuth()
 
 // const { login, logout, isAuthenticated } = useAuth()
 
-const auth = useAuthStore();
+// const auth = useAuthStore();
 
 
 //implement handle login function
@@ -16,22 +18,31 @@ const form = ref({
 
 const handleLogin = async () => {
     // await login(form.value)
-    console.log('form', form.value)
-    await auth.attemptLogin(form.value)
+  console.log('form', form.value);
+    const login = await $fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form.value),
+    })
+    console.log('form', form.value);
+    console.log('login', login);
+    fetch()
 }
 
 const handleLogout = async () => {
-    await auth.logout()
+    //await auth.logout()
 }
 
 </script>
 
 <template>
-    <div v-if="auth.isLoggedIn">
-        you are logged in
-        <button @click="handleLogout">Logout</button>
-    </div>
-    <div v-else
+<!--    <div>-->
+<!--        you are logged in-->
+<!--        <button @click="handleLogout">Logout</button>-->
+<!--    </div>-->
+    <div
         class="w-full flex justify-center flex-col items-center">
         <form @submit.prevent="handleLogin"
             class="max-w-screen-sm flex flex-col gap-3 items-start justify-start w-full">

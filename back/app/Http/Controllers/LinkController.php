@@ -35,14 +35,22 @@ class LinkController extends Controller
     }
 
     //update a link with his id
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $link = Link::find($id);
         if (!$link) {
-            return response()->json(['message' => 'Lien non trouvé'], 404);
+            return response()->json(['message' => 'Not Found Link'], 404);
         }
-        $link->update($request->only(['nom', 'lien', 'place']));
-        return response()->json(['message' => 'Lien mis à jour avec succès', 'link' => $link, "value" => $request->input("nom")], 200);
+        if ($link->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        try {
+            $link->update($request->only(['name', 'url', 'subtitle', 'place']));
+        }
+        catch (\Exception $e) {
+            return response()->json(['message' => 'Error while updating link'], 500);
+        }
+        return response()->json(['message' => 'Link updated successfully', 'link' => $link], 200);
     }
 
     //delete a link with his id
@@ -52,11 +60,16 @@ class LinkController extends Controller
         if (!$link) {
             return response()->json(['message' => 'Lien non trouvé'], 404);
         }
+        if ($link->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $link->delete();
+
         return response()->json(['message' => 'Lien supprimé avec succès'], 200);
     }
 
-public function getAllLink($id){
+    public function getAllLink($id){
         $user = User::find($id);
         if(!$user){
             return response()->json(['message' => 'Utilisateur non trouvé'], 404);
@@ -65,5 +78,5 @@ public function getAllLink($id){
         return response()->json(['links' => $links], 200);
     }
 
-    
+
 }

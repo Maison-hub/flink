@@ -21,6 +21,8 @@ class LoginUserController extends Controller{
         }
 
         $user = Auth::user();
+
+        $user->tokens()->delete();
         $token = $user->createToken($request->device_name)->plainTextToken;
 
         return response()->json(['token' => $token, 'user' => $user]);
