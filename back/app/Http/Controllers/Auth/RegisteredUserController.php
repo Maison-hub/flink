@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredUserController extends Controller
 {
     /**
      * Handle an incoming registration request.
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     public function store(Request $request): Response
     {
@@ -70,8 +72,8 @@ class RegisteredUserController extends Controller
     }
 
     // update profile picture
-    public function updateProfilePicture(Request $request): Response
-    {        
+    public function updateProfilePicture(Request $request): \Illuminate\Http\JsonResponse
+    {
         $request->validate([
             'picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
