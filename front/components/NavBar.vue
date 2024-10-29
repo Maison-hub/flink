@@ -1,5 +1,4 @@
 <script setup>
-const { user, isAuthenticated, logout } = useAuth()
 
 const isDropdownOpen = ref(false);
 
@@ -13,7 +12,6 @@ const viewProfile = () => {
 
 const handleLogout = () => {
     // Logique pour déconnecter l'utilisateur
-    logout();
 };
 
 
@@ -25,29 +23,29 @@ const handleLogout = () => {
             <li>
                 <NuxtLink to="/">Home</NuxtLink>
             </li>
-            <div class="w-full"></div>
-            {{ isAuthenticated }}
-            <ul v-if="isAuthenticated">
-                <li>
-                    <NuxtLink to="/board">Your Dashboard</NuxtLink>
-                </li>
-                <li @click="toggleDropdown"
-                    class="cursor-pointer">
-                    <span>{{ user.name }}</span>
-                    <ul v-if="isDropdownOpen"
-                        class="absolute flex flex-col right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg gap-0">
-                        <li @click="viewProfile"
-                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">
-                            <NuxtLink to="/you">View Profile</NuxtLink>
-                        </li>
-                        <li @click="logout"
-                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">Logout</li>
-                    </ul>
-                </li>
-            </ul>
-            <ul v-else>
-                <NuxtLink to="/login">Login</NuxtLink>
-            </ul>
+<!--            <div class="w-full"></div>-->
+<!--            {{ isAuthenticated }}-->
+<!--            <ul v-if="isAuthenticated">-->
+<!--                <li>-->
+<!--                    <NuxtLink to="/board">Your Dashboard</NuxtLink>-->
+<!--                </li>-->
+<!--                <li @click="toggleDropdown"-->
+<!--                    class="cursor-pointer">-->
+<!--                    <span>{{ user.name }}</span>-->
+<!--                    <ul v-if="isDropdownOpen"-->
+<!--                        class="absolute flex flex-col right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg gap-0">-->
+<!--                        <li @click="viewProfile"-->
+<!--                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">-->
+<!--                            <NuxtLink to="/you">View Profile</NuxtLink>-->
+<!--                        </li>-->
+<!--                        <li @click="logout"-->
+<!--                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">Logout</li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <ul v-else>-->
+<!--                <NuxtLink to="/login">Login</NuxtLink>-->
+<!--            </ul>-->
         </ul>
     </nav>
 </template>

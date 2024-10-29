@@ -1,13 +1,9 @@
 <script setup>
 const { loggedIn, user, session, fetch, clear } = useUserSession()
+import { useCsrfToken} from "~/composables/useCsrfToken";
 
-// import { useAuthStore } from '~/stores/authStore';
-// const { login, logout, isAuthenticated } = useSanctumAuth()
-
-// const { login, logout, isAuthenticated } = useAuth()
-
-// const auth = useAuthStore();
-
+const runtimeConfig = useRuntimeConfig()
+const apiBase = runtimeConfig.public.apiBase
 
 //implement handle login function
 const form = ref({
@@ -18,17 +14,32 @@ const form = ref({
 
 const handleLogin = async () => {
     // await login(form.value)
-  console.log('form', form.value);
-    const login = await $fetch('/api/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form.value),
-    })
-    console.log('form', form.value);
-    console.log('login', login);
-    fetch()
+  console.log('apiBase', apiBase);
+  await useCsrfToken() // Fetch CSRF token before making the login request
+
+  const user = await $fetch(`${apiBase}/api/login`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        email: form.value.email,
+        password: form.value.password,
+        device_name: 'web',
+    }),
+    credentials: 'include',
+  })
+
+  await $fetch(`api/set-session`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+    credentials: 'include',
+  })
+  console.log('test laravel api >>>>>', login);
+  fetch()
 }
 
 const handleLogout = async () => {
