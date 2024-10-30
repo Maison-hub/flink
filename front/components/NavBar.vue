@@ -1,53 +1,49 @@
 <script setup>
+import { useUserStore } from "@/stores/useUserStore";
 
+const { loggedIn, user, session, fetch, clear } = useUserSession()
 const isDropdownOpen = ref(false);
+const userStore = useUserStore()
 
 const toggleDropdown = () => {
     isDropdownOpen.value = !isDropdownOpen.value;
 };
 
-const viewProfile = () => {
-    // Logique pour afficher le profil de l'utilisateur
-};
-
 const handleLogout = () => {
-    // Logique pour déconnecter l'utilisateur
+  // Logique pour déconnecter l'utilisateur
+  userStore.logout()
 };
 
 
 </script>
 
 <template>
-    <nav class="flex flex-row items-center justify-center w-full py-6">
-        <ul class="p-6 w-full">
-            <li>
-                <NuxtLink to="/">Home</NuxtLink>
-            </li>
-<!--            <div class="w-full"></div>-->
-<!--            {{ isAuthenticated }}-->
-<!--            <ul v-if="isAuthenticated">-->
-<!--                <li>-->
-<!--                    <NuxtLink to="/board">Your Dashboard</NuxtLink>-->
-<!--                </li>-->
-<!--                <li @click="toggleDropdown"-->
-<!--                    class="cursor-pointer">-->
-<!--                    <span>{{ user.name }}</span>-->
-<!--                    <ul v-if="isDropdownOpen"-->
-<!--                        class="absolute flex flex-col right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg gap-0">-->
-<!--                        <li @click="viewProfile"-->
-<!--                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">-->
-<!--                            <NuxtLink to="/you">View Profile</NuxtLink>-->
-<!--                        </li>-->
-<!--                        <li @click="logout"-->
-<!--                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer w-full">Logout</li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--            <ul v-else>-->
-<!--                <NuxtLink to="/login">Login</NuxtLink>-->
-<!--            </ul>-->
-        </ul>
-    </nav>
+  <nav class="flex flex-row items-center justify-between w-full py-6 px-6 border-b border-b-black/10">
+    <div>
+      <NuxtLink to="/">Home</NuxtLink>
+    </div>
+
+    <div v-if="loggedIn" class="relative">
+      <div>
+        <span @click="toggleDropdown" class="cursor-pointer hover:bg-black/10 transition-all p-3 rounded-md">
+          {{ user?.name }}
+        </span>
+        <div :class="{ hidden: !isDropdownOpen }" class="flex flex-col absolute right-0 top-full mt-4 p-1 border border-black/10 rounded-md">
+          <button @click="handleLogout" class="px-4 py-1 hover:bg-black/10 transition-all rounded-md">
+            Logout
+          </button>
+          <button class="px-4 py-1 hover:bg-black/10 transition-all rounded-md text-nowrap">
+            My Profile
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div v-else>
+      <NuxtLink to="/login">Home</NuxtLink>
+    </div>
+
+  </nav>
 </template>
 <style>
 ul {

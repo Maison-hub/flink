@@ -1,11 +1,11 @@
 <script setup>
-import useUserLinks from '~/composables/useUserLinks';
+//import useUserLinks from '~/composables/useUserLinks';
 
-definePageMeta({
-    middleware: ['auth'],
-});
+// definePageMeta({
+//     middleware: ['auth'],
+// });
 
-const { links, getLinks } = useUserLinks()
+// const { links, getLinks } = useUserLinks()
 
 
 
@@ -43,13 +43,13 @@ const { links, getLinks } = useUserLinks()
     <div>
         <p>your links</p>
 
-        <div v-if="links">
-            <div v-for="link in links.links">
-                <p>{{ link.name }}</p>
-                <p>{{ link.url }}</p>
-            </div>
+<!--        <div v-if="links">-->
+<!--            <div v-for="link in links.links">-->
+<!--                <p>{{ link.name }}</p>-->
+<!--                <p>{{ link.url }}</p>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
 
     </div>
 

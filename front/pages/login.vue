@@ -1,9 +1,15 @@
 <script setup>
-const { loggedIn, user, session, fetch, clear } = useUserSession()
-import { useCsrfToken} from "~/composables/useCsrfToken";
+import { useUserStore } from "@/stores/useUserStore";
+import {navigateTo} from "#app";
 
+const { loggedIn ,fetch, clear } = useUserSession()
+const router = useRouter();
+const route = useRoute();
 const runtimeConfig = useRuntimeConfig()
 const apiBase = runtimeConfig.public.apiBase
+const userStore = useUserStore()
+
+
 
 //implement handle login function
 const form = ref({
@@ -13,38 +19,28 @@ const form = ref({
 })
 
 const handleLogin = async () => {
-    // await login(form.value)
-  console.log('apiBase', apiBase);
-  await useCsrfToken() // Fetch CSRF token before making the login request
-
-  const user = await $fetch(`${apiBase}/api/login`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-        email: form.value.email,
-        password: form.value.password,
-        device_name: 'web',
-    }),
-    credentials: 'include',
-  })
-
-  await $fetch(`api/set-session`, {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(user),
-    credentials: 'include',
-  })
-  console.log('test laravel api >>>>>', login);
-  fetch()
+  try {
+    await userStore.login(form.value.email, form.value.password)
+    await fetch()
+    console.log('Login successful')
+    const redirectTo = String(route.query.to || '/dashboard');
+    navigateTo(redirectTo)
+  } catch (error) {
+    console.error('Login error:', error)
+  }
 }
 
 const handleLogout = async () => {
     //await auth.logout()
+  await userStore.logout()
+  await clear()
 }
+onMounted(() => {
+  if (loggedIn) {
+    navigateTo('/dashboard')
+  }
+    console.log('login page mounted')
+})
 
 </script>
 
@@ -74,7 +70,7 @@ const handleLogout = async () => {
                 <label for="remember">Remember me</label>
             </div>
 
-            <!-- TOFO implement custom button component -->
+            <!-- TODO implement custom button component -->
             <button type="submit">Login</button>
         </form>
         <NuxtLink to="/testAuth">test auth</NuxtLink>
